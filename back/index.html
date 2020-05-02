@@ -1,11 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Background</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Background</title>
+  <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    
+  <main><div class="container"><h1>PDF转图片</h1><div class="file fullwidth mt-2"><span class="file-cta"><input id="input_file" class="file-input" type="file" accept="application/pdf" onchange="loadPDF(this.files[0])">
+  <span class="file-icon"><i class="fas fa-upload"></i></span><span class="file-button">选择一个PDF文件</span></span>
+  <span id="file_name" class="file-name"></span></div><div class="content-center mt-2"><div class="group"><button class="button" onclick="prevPage()">
+  <i class="fa fa-arrow-left"></i><span>上一页</span></button>
+  <button class="button" onclick="nextPage()">
+  <span>下一页</span>
+  <i class="fa fa-arrow-right"></i></button></div><div id="out_type" class="group"><button class="button primary">
+  <span>JPG</span></button>
+  <button class="button">
+  <span>PNG</span></button></div><button class="button primary" onclick="save()">
+  <span>保存本页</span></button>
+  <button class="button primary" onclick="saveAll()">
+  <span>全部保存</span></button></div><p id="page_num"></p><div class="content-center mt-2"><canvas id="preview" class="bordered" hidden=""></canvas></div></div></main>
+  <script src="../source/js/pdf.min.js"></script>
+  <script src="../source/js/jquery-1.12.4.min.js"></script>
+  <script src="index.js"></script>
 </body>
 </html>
