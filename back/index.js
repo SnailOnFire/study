@@ -135,6 +135,7 @@ function readerPage(callback) {
     curEditBox = $('#edit_box_' + (pageNum-1));
     editBoxInnerTop = $('.show .inner').get(0).offsetTop;
     editBoxInnerLeft = $('.show .inner').get(0).offsetLeft;
+    editBox.css('overflow','visible');
   });
   page_num.innerText = `页码 : ${pageNum} / ${pdf.numPages}`;
   $('#page_num_fixed').text(`页码 : ${pageNum} / ${pdf.numPages}`);
@@ -286,7 +287,7 @@ editBox.click(function(e) {
     processPosition[pageNum-1][_lastIndex][0] = _left;
     processPosition[pageNum-1][_lastIndex][1] = _top;
     _node.text('过程').css({'left': _left + 'px', 'top': _top + 'px'}).appendTo(curEditBox);
-    $('<input type="file">').appendTo(_node);
+    $('<input type="file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"><img>').appendTo(_node);
     markDrag(_node, processPosition[pageNum-1][_lastIndex]);
   }
   if(noticePressed) {
@@ -295,7 +296,7 @@ editBox.click(function(e) {
     noticePosition[pageNum-1][_lastIndex][0] = _left;
     noticePosition[pageNum-1][_lastIndex][1] = _top;
     _node.text('易错点').css({'left': _left + 'px', 'top': _top + 'px'}).appendTo(curEditBox);
-    $('<input type="file">').appendTo(_node);
+    $('<input type="file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"><img>').appendTo(_node);
     markDrag(_node, noticePosition[pageNum-1][_lastIndex]);
   }
   _node = '';
@@ -321,6 +322,33 @@ function markDrag(mark,position) {
     _endTime = (new Date).getTime();
     if(_endTime - _startTime < 200) {
       mark.find('input').click();
+      mark.find('input').change(function() {
+        var url = '',
+          fileObj = $(this).get(0).files[0];
+        if(fileObj) {
+          if (window.createObjcectURL != undefined) {  
+            url = window.createOjcectURL(fileObj);  
+          } else if (window.URL != undefined) {  
+            url = window.URL.createObjectURL(fileObj);  
+          } else if (window.webkitURL != undefined) {  
+            url = window.webkitURL.createObjectURL(fileObj);  
+          }
+          mark.addClass('hasfile').mouseenter(function() {
+            $(this).find('img').fadeIn();
+          });
+          mark.mouseleave(function() {
+            $(this).find('img').fadeOut('fast');
+          });
+          mark.find('img').on('mouseenter mouseleave', function(e) {
+            e.stopPropagation();
+          })
+          mark.find('img').removeClass('nopic');
+        } else {
+          mark.removeClass('hasfile');
+          mark.find('img').addClass('nopic');
+        }
+        mark.find('img').attr('src',url);
+      })
     }
   })
   mark.on('mousemove',function(e) {
@@ -328,6 +356,7 @@ function markDrag(mark,position) {
     var _left,
         _top;
     if(isMouseDown) {
+      $(this).find('img').fadeOut('fast');
       _left = e.pageX - editBoxInnerLeft - 35;
       _top = e.pageY - editBoxInnerTop - 13;
       position[0] = _left;

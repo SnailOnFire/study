@@ -212,6 +212,9 @@ $commonHeight: 36px;
           background-color: $maincolor;
           cursor: pointer;
           @include transitionAttr(background-color);
+          &.hasfile {
+            background-color: #34cc43!important;
+          }
           &.temp {
             background-color: transparent!important;
             border: 1px dashed #fff;
@@ -232,6 +235,20 @@ $commonHeight: 36px;
           }
           input {
             display: none;
+          }
+          img {
+            display: none;
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            width: 500px;
+            height: auto;
+            object-fit: cover;
+            margin-left: -250px;
+            z-index: 1;
+            &.nopic {
+              display: none!important;
+            }
           }
         }
       }
