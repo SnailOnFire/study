@@ -16,8 +16,14 @@
     </div>
     <div class="handle mt20">
       <div class="group">
+        <button onclick="gotoPage(1)">首页</button>
         <button onclick="prevPage()">上一页</button>
         <button onclick="nextPage()">下一页</button>
+        <button onclick="gotoPage(0)">尾页</button>
+      </div>
+      <div class="group">
+        <input type="text" id="input_num">
+        <button id="goto_page" class="cur">调转</button>
       </div>
       <div id="out_type" class="group">
         <button class="cur">JPG</button>
@@ -30,16 +36,22 @@
     <div class="show mt20">
       <div class="inner">
         <canvas id="preview" hidden=""></canvas>
-        <div id="edit_box">
+        <div id="edit_box" class="noselect">
           <div class="mask"></div>
           <div class="group">
+            <p id="page_num_fixed" class="hide"></p>
+            <button class="hide" onclick="prevPage()">上一页</button>
+            <button class="hide" onclick="nextPage()">下一页</button>
             <button class="cur process">添加解题过程</button>
             <button class="cur notice">添加易错点</button>
           </div>
+          <div class="mark hide temp process">过程</div>
+          <div class="mark hide temp notice">易错点</div>
         </div>
       </div>
     </div>
   </div>
+  <div id="alert_box"></div>
   <script src="../source/js/pdf.min.js"></script>
   <script src="../source/js/jquery-1.12.4.min.js"></script>
   <script src="index.js"></script>

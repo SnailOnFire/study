@@ -4,18 +4,26 @@
   margin-top: 20px;
 }
 
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently not supported by any browser */
+}
+
 $maincolor: #6c928c;
 $mainhovercolor: #96B499;
 $maintextcolor: #34495e;
 $mainborder: 1px solid #e4e4e4;
+$commonHeight: 36px;
 
 .container {
   margin: 0 auto;
   min-width: 960px;
   max-width: 1440px;
   padding: 20px;
-
-  $commonHeight: 36px;
 
   button {
     height: 100%;
@@ -46,6 +54,14 @@ $mainborder: 1px solid #e4e4e4;
       &+* {
         border-left: none;
       }
+    }
+    input {
+      width: 80px;
+      height: $commonHeight;
+      box-sizing: border-box;
+      border: $mainborder;
+      border-right: none;
+      padding: 0 1em;
     }
   }
 
@@ -135,10 +151,26 @@ $mainborder: 1px solid #e4e4e4;
           position: relative;
           display: inline-block;
           border-radius: 0;
+          z-index: 1;
           &.fixed {
             position: fixed;
             top: 0;
             z-index: 1000;
+            .hide {
+              display: block;
+            }
+          }
+          .hide {
+            display: none;
+            border-left: $mainborder;
+            &#page_num_fixed {
+              line-height: $commonHeight;
+              margin-right: 15px;
+              background-color: $maincolor;
+              color: #fff;
+              padding: 0 1em;
+              border-left: none;
+            }
           }
           button {
             &.active {
@@ -161,7 +193,67 @@ $mainborder: 1px solid #e4e4e4;
           opacity: .5;
           filter: alpha(opacity=50);
         }
+        .edit-box {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+        }
+        .mark {
+          position: absolute;
+          width: 70px;
+          height: 26px;
+          text-align: center;
+          color: #fff;
+          line-height: 26px;
+          border-radius: 13px;
+          box-sizing: border-box;
+          background-color: $maincolor;
+          cursor: pointer;
+          @include transitionAttr(background-color);
+          &.temp {
+            background-color: transparent!important;
+            border: 1px dashed #fff;
+            line-height: 24px;
+            opacity: .7;
+            filter: alpha(opacity=70);
+          }
+          &.hide {
+            display: none;
+          }
+          &:hover {
+            background-color: $mainhovercolor;
+          }
+          &:before {
+            content: "•";
+            display: inline;
+            padding-right: 5px;
+          }
+          input {
+            display: none;
+          }
+        }
       }
     }
+  }
+}
+
+#alert_box {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 0;
+  width: 894px;
+  margin-left: -447px;
+  box-sizing: border-box;
+  font-size: 16px;
+  color: #fff;
+  line-height: $commonHeight;
+  text-align: center;
+  background-color: $maincolor;
+  z-index: 1001;
+  &.fail {
+    background-color: #930;
   }
 }
